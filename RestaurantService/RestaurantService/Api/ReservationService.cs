@@ -1,15 +1,20 @@
 ﻿using System;
 using RestaurantService.Services;
+using RestaurantService.Services.Mail;
 
 namespace RestaurantService.Api
 {
     public class ReservationService
     {
         private ITableReservationService _tableReservationService;
-
-        public ReservationService(ITableReservationService tableReservationService)
+        private IEmailService _emailService;
+        
+        public ReservationService(
+            ITableReservationService tableReservationService, 
+            IEmailService emailService)
         {
             _tableReservationService = tableReservationService;
+            _emailService = emailService;
         }
 
         public BookTableResponse BookTable(BookTableRequest request)
@@ -20,6 +25,7 @@ namespace RestaurantService.Api
             }
 
             _tableReservationService.StoreReservation();
+            _emailService.Send(new Message());
             
             return new BookTableResponse { Status = BookTableStatus.Success };
         }

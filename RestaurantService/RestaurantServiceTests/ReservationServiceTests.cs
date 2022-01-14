@@ -20,7 +20,7 @@ namespace RestaurantServiceTests
             _tableReservationService = new Mock<ITableReservationService>();
             _emailService = new Mock<IEmailService>();
             
-            _testClass = new ReservationService(_tableReservationService.Object);
+            _testClass = new ReservationService(_tableReservationService.Object, _emailService.Object);
         }
 
         private ReservationService _testClass;
