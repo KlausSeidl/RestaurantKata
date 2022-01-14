@@ -1,17 +1,23 @@
 ﻿using System;
 using FluentAssertions;
+using Moq;
 using NUnit.Framework;
-using RestaurantService.ReservationService;
+using RestaurantService.Api;
+using RestaurantService.Services;
 
 namespace RestaurantServiceTests
 {
     [TestFixture]
     public class ReservationServiceTests
     {
+        private Mock<ITableReservationService> _tableReservationService;
+        
         [SetUp]
         public void Setup()
         {
-            _testClass = new ReservationService();
+            _tableReservationService = new Mock<ITableReservationService>();
+            
+            _testClass = new ReservationService(_tableReservationService.Object);
         }
 
         private ReservationService _testClass;
@@ -20,7 +26,8 @@ namespace RestaurantServiceTests
         public void BookTable_with_no_free_table_should_return_NoFreeTable()
         {
             // Arrange
-            var request = new BookTableRequest { UserId = Guid.Empty };
+            var request = new BookTableRequest();
+            _tableReservationService.Setup(x => x.HasFreeTable(It.IsAny<BookTableRequest>())).Returns(false);
 
             // Act
             var result = _testClass.BookTable(request);
@@ -33,7 +40,8 @@ namespace RestaurantServiceTests
         public void BookTable_with_free_table_should_return_Success()
         {
             // Arrange
-            var request = new BookTableRequest { UserId = Guid.NewGuid() };
+            var request = new BookTableRequest();
+            _tableReservationService.Setup(x => x.HasFreeTable(It.IsAny<BookTableRequest>())).Returns(true);
 
             // Act
             var result = _testClass.BookTable(request);

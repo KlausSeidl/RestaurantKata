@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RestaurantService.ReservationService
+namespace RestaurantService.Api
 {
     public class BookTableRequest
     {

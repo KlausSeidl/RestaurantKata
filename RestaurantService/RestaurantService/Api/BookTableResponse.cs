@@ -1,4 +1,4 @@
-﻿namespace RestaurantService.ReservationService
+﻿namespace RestaurantService.Api
 {
     public class BookTableResponse
     {
