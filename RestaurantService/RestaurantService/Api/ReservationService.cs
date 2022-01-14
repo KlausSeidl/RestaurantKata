@@ -19,6 +19,8 @@ namespace RestaurantService.Api
                 return new BookTableResponse { Status = BookTableStatus.NoFreeTable };
             }
 
+            _tableReservationService.StoreReservation();
+            
             return new BookTableResponse { Status = BookTableStatus.Success };
         }
     }
