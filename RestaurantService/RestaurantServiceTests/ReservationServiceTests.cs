@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -79,6 +80,20 @@ namespace RestaurantServiceTests
 
             // Assert
             _emailService.Verify(x => x.Send(It.IsAny<Message>()), Times.Once);
+        }
+        
+        [Test]
+        public void BookTable_with_free_table_should_send_confirmation_mail_to_correct_recipient()
+        {
+            // Arrange
+            var request = new BookTableRequest();
+            _tableReservationService.Setup(x => x.HasFreeTable(It.IsAny<BookTableRequest>())).Returns(true);
+
+            // Act
+            var result = _testClass.BookTable(request);
+
+            // Assert
+            _emailService.Verify(x => x.Send(It.Is(new Message(){To = "kseidl@recom.eu"}, EqualityComparer<Message>.Default)), Times.Once);
         }
     }
 }
