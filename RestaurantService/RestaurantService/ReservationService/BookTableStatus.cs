@@ -1,4 +1,4 @@
-﻿namespace RestaurantService
+﻿namespace RestaurantService.ReservationService
 {
     public enum BookTableStatus
     {
