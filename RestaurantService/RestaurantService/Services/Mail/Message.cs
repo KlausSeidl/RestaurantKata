@@ -2,6 +2,6 @@
 {
     public struct Message
     {
-        public string To { get; set; }
+        public MailAddress To { get; set; }
     }
 }

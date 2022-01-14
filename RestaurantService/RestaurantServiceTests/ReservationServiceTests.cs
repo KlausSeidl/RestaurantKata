@@ -18,7 +18,7 @@ namespace RestaurantServiceTests
             _tableReservationService = new Mock<ITableReservationService>();
             _emailService = new Mock<IEmailService>();
 
-            Session.CurrentUser = new User { Email = "kseidl@recom.eu" };
+            Session.CurrentUser = new User { Email = new MailAddress("kseidl@recom.eu") };
 
             _testClass = new ReservationService(_tableReservationService.Object, _emailService.Object);
         }
@@ -96,7 +96,7 @@ namespace RestaurantServiceTests
 
             // Assert
             _emailService.Verify(
-                x => x.Send(It.Is(new Message { To = "kseidl@recom.eu" }, EqualityComparer<Message>.Default)),
+                x => x.Send(It.Is(new Message { To = new MailAddress("kseidl@recom.eu") }, EqualityComparer<Message>.Default)),
                 Times.Once);
         }
     }
