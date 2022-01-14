@@ -3,6 +3,7 @@
     public enum BookTableStatus
     {
         Success,
-        NoFreeTable
+        NoFreeTable,
+        InvalidRequest
     }
 }

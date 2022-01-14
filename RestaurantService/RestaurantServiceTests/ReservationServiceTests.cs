@@ -41,6 +41,19 @@ namespace RestaurantServiceTests
             // Assert
             result.Status.Should().Be(BookTableStatus.NoFreeTable);
         }
+        
+        [Test]
+        public void BookTable_with_invalid_request_should_return_InvalidRequest()
+        {
+            // Arrange
+            var request = new BookTableRequest();
+
+            // Act
+            var result = _testClass.BookTable(request);
+
+            // Assert
+            result.Status.Should().Be(BookTableStatus.InvalidRequest);
+        }
 
         [Test]
         public void BookTable_with_free_table_should_return_Success()
