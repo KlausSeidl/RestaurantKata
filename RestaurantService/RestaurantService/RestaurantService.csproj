@@ -45,6 +45,7 @@
         <Compile Include="Api\BookTableResponse.cs" />
         <Compile Include="Api\BookTableStatus.cs" />
         <Compile Include="Api\ReservationService.cs" />
+        <Compile Include="Services\IDateTimeService.cs" />
         <Compile Include="Services\ITableReservationService.cs" />
         <Compile Include="Services\Mail\IEmailService.cs" />
         <Compile Include="Services\Mail\MailAddress.cs" />
