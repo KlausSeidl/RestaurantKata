@@ -4,6 +4,7 @@ using Moq;
 using NUnit.Framework;
 using RestaurantService.Api;
 using RestaurantService.Services;
+using RestaurantService.Services.Mail;
 
 namespace RestaurantServiceTests
 {
@@ -11,11 +12,13 @@ namespace RestaurantServiceTests
     public class ReservationServiceTests
     {
         private Mock<ITableReservationService> _tableReservationService;
+        private Mock<IEmailService> _emailService;
         
         [SetUp]
         public void Setup()
         {
             _tableReservationService = new Mock<ITableReservationService>();
+            _emailService = new Mock<IEmailService>();
             
             _testClass = new ReservationService(_tableReservationService.Object);
         }
@@ -51,7 +54,7 @@ namespace RestaurantServiceTests
         }
         
         [Test]
-        public void BookTable_with_free_table_should_return_Store_reservation()
+        public void BookTable_with_free_table_should_Store_reservation()
         {
             // Arrange
             var request = new BookTableRequest();
@@ -62,6 +65,20 @@ namespace RestaurantServiceTests
 
             // Assert
             _tableReservationService.Verify(x => x.StoreReservation(), Times.Once);
+        }
+        
+        [Test]
+        public void BookTable_with_free_table_should_send_confirmation_mail()
+        {
+            // Arrange
+            var request = new BookTableRequest();
+            _tableReservationService.Setup(x => x.HasFreeTable(It.IsAny<BookTableRequest>())).Returns(true);
+
+            // Act
+            var result = _testClass.BookTable(request);
+
+            // Assert
+            _emailService.Verify(x => x.Send(It.IsAny<Message>()), Times.Once);
         }
     }
 }

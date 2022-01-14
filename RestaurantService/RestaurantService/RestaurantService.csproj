@@ -44,6 +44,8 @@
         <Compile Include="Api\BookTableStatus.cs" />
         <Compile Include="Api\ReservationService.cs" />
         <Compile Include="Services\ITableReservationService.cs" />
+        <Compile Include="Services\Mail\IEmailService.cs" />
+        <Compile Include="Services\Mail\Message.cs" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="Assumptions.txt" />
