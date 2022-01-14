@@ -69,6 +69,7 @@
         <Compile Include="MailAddressTests.cs" />
         <Compile Include="ReservationServiceTests.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="TableReservationServiceTests.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="packages.config" />
