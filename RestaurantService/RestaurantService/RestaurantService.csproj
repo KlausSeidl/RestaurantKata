@@ -39,6 +39,8 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Api\BookTableRequest.cs" />
+        <Compile Include="Platform\Session.cs" />
+        <Compile Include="Platform\User.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Api\BookTableResponse.cs" />
         <Compile Include="Api\BookTableStatus.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using RestaurantService.Platform;
 using RestaurantService.Services;
 using RestaurantService.Services.Mail;
 
@@ -25,7 +26,7 @@ namespace RestaurantService.Api
             }
 
             _tableReservationService.StoreReservation();
-            _emailService.Send(new Message());
+            _emailService.Send(new Message(){To = Session.CurrentUser.Email});
             
             return new BookTableResponse { Status = BookTableStatus.Success };
         }

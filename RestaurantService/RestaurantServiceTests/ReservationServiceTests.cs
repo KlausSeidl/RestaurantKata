@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using RestaurantService.Api;
+using RestaurantService.Platform;
 using RestaurantService.Services;
 using RestaurantService.Services.Mail;
 
@@ -20,6 +20,8 @@ namespace RestaurantServiceTests
         {
             _tableReservationService = new Mock<ITableReservationService>();
             _emailService = new Mock<IEmailService>();
+
+            Session.CurrentUser = new User() { Email = "kseidl@recom.eu" };
             
             _testClass = new ReservationService(_tableReservationService.Object, _emailService.Object);
         }
@@ -62,7 +64,7 @@ namespace RestaurantServiceTests
             _tableReservationService.Setup(x => x.HasFreeTable(It.IsAny<BookTableRequest>())).Returns(true);
 
             // Act
-            var result = _testClass.BookTable(request);
+            _testClass.BookTable(request);
 
             // Assert
             _tableReservationService.Verify(x => x.StoreReservation(), Times.Once);
@@ -76,7 +78,7 @@ namespace RestaurantServiceTests
             _tableReservationService.Setup(x => x.HasFreeTable(It.IsAny<BookTableRequest>())).Returns(true);
 
             // Act
-            var result = _testClass.BookTable(request);
+            _testClass.BookTable(request);
 
             // Assert
             _emailService.Verify(x => x.Send(It.IsAny<Message>()), Times.Once);
@@ -90,7 +92,7 @@ namespace RestaurantServiceTests
             _tableReservationService.Setup(x => x.HasFreeTable(It.IsAny<BookTableRequest>())).Returns(true);
 
             // Act
-            var result = _testClass.BookTable(request);
+            _testClass.BookTable(request);
 
             // Assert
             _emailService.Verify(x => x.Send(It.Is(new Message(){To = "kseidl@recom.eu"}, EqualityComparer<Message>.Default)), Times.Once);
