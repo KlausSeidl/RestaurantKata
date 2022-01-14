@@ -20,6 +20,8 @@ namespace RestaurantServiceTests
 
             Session.CurrentUser = new User { Email = new MailAddress("kseidl@recom.eu") };
 
+            _tableReservationService.Setup(x => x.IsValidRequest(It.IsAny<BookTableRequest>())).Returns(true);
+            
             _testClass = new ReservationService(_tableReservationService.Object, _emailService.Object);
         }
 
@@ -46,8 +48,9 @@ namespace RestaurantServiceTests
         public void BookTable_with_invalid_request_should_return_InvalidRequest()
         {
             // Arrange
-            var request = new BookTableRequest(){IsValid = false};
-
+            var request = new BookTableRequest();
+            _tableReservationService.Setup(x => x.IsValidRequest(It.IsAny<BookTableRequest>())).Returns(false);
+            
             // Act
             var result = _testClass.BookTable(request);
 

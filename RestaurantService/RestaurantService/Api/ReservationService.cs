@@ -19,7 +19,7 @@ namespace RestaurantService.Api
 
         public BookTableResponse BookTable(BookTableRequest request)
         {
-            if (!request.IsValid)
+            if (!_tableReservationService.IsValidRequest(request))
             {
                 return new BookTableResponse { Status = BookTableStatus.InvalidRequest };
             }
