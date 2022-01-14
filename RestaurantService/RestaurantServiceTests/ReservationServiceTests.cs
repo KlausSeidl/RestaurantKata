@@ -12,19 +12,19 @@ namespace RestaurantServiceTests
     [TestFixture]
     public class ReservationServiceTests
     {
-        private Mock<ITableReservationService> _tableReservationService;
-        private Mock<IEmailService> _emailService;
-        
         [SetUp]
         public void Setup()
         {
             _tableReservationService = new Mock<ITableReservationService>();
             _emailService = new Mock<IEmailService>();
 
-            Session.CurrentUser = new User() { Email = "kseidl@recom.eu" };
-            
+            Session.CurrentUser = new User { Email = "kseidl@recom.eu" };
+
             _testClass = new ReservationService(_tableReservationService.Object, _emailService.Object);
         }
+
+        private Mock<ITableReservationService> _tableReservationService;
+        private Mock<IEmailService> _emailService;
 
         private ReservationService _testClass;
 
@@ -55,7 +55,7 @@ namespace RestaurantServiceTests
             // Assert
             result.Status.Should().Be(BookTableStatus.Success);
         }
-        
+
         [Test]
         public void BookTable_with_free_table_should_Store_reservation()
         {
@@ -69,7 +69,7 @@ namespace RestaurantServiceTests
             // Assert
             _tableReservationService.Verify(x => x.StoreReservation(), Times.Once);
         }
-        
+
         [Test]
         public void BookTable_with_free_table_should_send_confirmation_mail()
         {
@@ -83,7 +83,7 @@ namespace RestaurantServiceTests
             // Assert
             _emailService.Verify(x => x.Send(It.IsAny<Message>()), Times.Once);
         }
-        
+
         [Test]
         public void BookTable_with_free_table_should_send_confirmation_mail_to_correct_recipient()
         {
@@ -95,7 +95,9 @@ namespace RestaurantServiceTests
             _testClass.BookTable(request);
 
             // Assert
-            _emailService.Verify(x => x.Send(It.Is(new Message(){To = "kseidl@recom.eu"}, EqualityComparer<Message>.Default)), Times.Once);
+            _emailService.Verify(
+                x => x.Send(It.Is(new Message { To = "kseidl@recom.eu" }, EqualityComparer<Message>.Default)),
+                Times.Once);
         }
     }
 }

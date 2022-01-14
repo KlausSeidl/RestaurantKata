@@ -1,5 +1,4 @@
-﻿using System;
-using RestaurantService.Platform;
+﻿using RestaurantService.Platform;
 using RestaurantService.Services;
 using RestaurantService.Services.Mail;
 
@@ -7,11 +6,11 @@ namespace RestaurantService.Api
 {
     public class ReservationService
     {
-        private ITableReservationService _tableReservationService;
-        private IEmailService _emailService;
-        
+        private readonly IEmailService _emailService;
+        private readonly ITableReservationService _tableReservationService;
+
         public ReservationService(
-            ITableReservationService tableReservationService, 
+            ITableReservationService tableReservationService,
             IEmailService emailService)
         {
             _tableReservationService = tableReservationService;
@@ -21,13 +20,11 @@ namespace RestaurantService.Api
         public BookTableResponse BookTable(BookTableRequest request)
         {
             if (!_tableReservationService.HasFreeTable(request))
-            {
                 return new BookTableResponse { Status = BookTableStatus.NoFreeTable };
-            }
 
             _tableReservationService.StoreReservation();
-            _emailService.Send(new Message(){To = Session.CurrentUser.Email});
-            
+            _emailService.Send(new Message { To = Session.CurrentUser.Email });
+
             return new BookTableResponse { Status = BookTableStatus.Success };
         }
     }
