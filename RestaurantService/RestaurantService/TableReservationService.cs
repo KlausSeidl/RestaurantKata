@@ -1,21 +1,17 @@
-﻿namespace RestaurantService
+﻿using System;
+
+namespace RestaurantService
 {
     public class TableReservationService
     {
-        public BookTableResponse BookTable()
+        public BookTableResponse BookTable(BookTableRequest request)
         {
-            return new BookTableResponse() { Status = BookTableStatus.NoFreeTable };
+            if (request.UserId == Guid.Empty)
+            {
+                return new BookTableResponse() { Status = BookTableStatus.NoFreeTable };
+            }
+            
+            return new BookTableResponse() { Status = BookTableStatus.Success };
         }
-    }
-
-    public enum BookTableStatus
-    {
-        Success,
-        NoFreeTable
-    }
-    
-    public class BookTableResponse
-    {
-        public BookTableStatus Status { get; set; }    
     }
 }

@@ -1,0 +1,3 @@
+﻿TableReservationService is a service used in a web-service environment
+The user interacting with the service is an already registered and verified user
+The web-service environment provides details about the user
