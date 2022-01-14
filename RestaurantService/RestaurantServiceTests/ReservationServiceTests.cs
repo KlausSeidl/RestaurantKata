@@ -46,7 +46,7 @@ namespace RestaurantServiceTests
         public void BookTable_with_invalid_request_should_return_InvalidRequest()
         {
             // Arrange
-            var request = new BookTableRequest();
+            var request = new BookTableRequest(){IsValid = false};
 
             // Act
             var result = _testClass.BookTable(request);

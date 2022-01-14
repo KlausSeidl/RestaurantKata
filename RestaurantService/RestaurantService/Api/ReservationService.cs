@@ -19,8 +19,15 @@ namespace RestaurantService.Api
 
         public BookTableResponse BookTable(BookTableRequest request)
         {
+            if (!request.IsValid)
+            {
+                return new BookTableResponse { Status = BookTableStatus.InvalidRequest };
+            }
+            
             if (!_tableReservationService.HasFreeTable(request))
+            {
                 return new BookTableResponse { Status = BookTableStatus.NoFreeTable };
+            }
 
             _tableReservationService.StoreReservation();
             _emailService.Send(new Message { To = Session.CurrentUser.Email });
